@@ -10,6 +10,7 @@ import { Musics } from './music/entities/music.entity';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { musicModule } from './music/music.module';
+import { favMusicModule } from './favMusic/favMusic.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -30,6 +31,7 @@ import { musicModule } from './music/music.module';
     usersModule,
     AuthModule,
     musicModule,
+    favMusicModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -7,7 +7,4 @@ export class Musics {
 
   @Column({ nullable: false })
   name: string;
-
-  @Column({ nullable: true })
-  poster: string;
 }

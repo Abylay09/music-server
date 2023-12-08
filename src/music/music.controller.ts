@@ -11,6 +11,7 @@ import {
   UseGuards,
   Body,
   InternalServerErrorException,
+  Param,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -31,33 +32,26 @@ export class musicController {
       storage: diskStorage({
         destination: 'music',
         filename: (req, file, cb) => {
-          log(file);
           cb(null, file.originalname);
         },
       }),
     }),
   )
-  uploadFile(
-    @UploadedFile() file: Express.Multer.File,
-    // @UploadedFile() image: Express.Multer.File,
-    @Body() uploadBody: Record<string, any>,
-  ) {
+  uploadFile(@UploadedFile() file: Express.Multer.File) {
     try {
-      this.musicService.addMusic(file.originalname, uploadBody.image);
+      this.musicService.addMusic(file.originalname);
       const response = {
         data: file.path,
         status: 'file uploaded',
       };
       return response;
     } catch (e) {
-      log(uploadBody);
       throw new InternalServerErrorException('Database error');
     }
   }
 
   // @UseGuards(AuthGuard)
   @Get('getMusic')
-  @Header('ngrok-skip-browser-warning', '3001')
   getMusic(@Query() query, @Res() res: Response) {
     const filePath = this.musicService.getSingleMusic(query.fileName);
     return res.sendFile(filePath);

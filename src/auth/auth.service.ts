@@ -16,10 +16,6 @@ export class AuthService {
   // Авторизация пользователя
   async signIn(email: string, password: string) {
     const user = await this.userService.findOne(email);
-    log(user);
-    log(password !== user?.password);
-    log(user?.password);
-    log(password);
     if (user?.password !== password) {
       throw new UnauthorizedException();
     }
